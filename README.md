@@ -13,3 +13,5 @@
     - npx shadcn-ui@latest add (vai pedir os componentes)
   - openai ([https://sdk.vercel.ai/docs/guides/openai])
     - npm i ai openai-edge
+
+## test
