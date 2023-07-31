@@ -39,7 +39,7 @@ const Recorder = ({setText }:IRecorder) => {
   };
 
   return (
-    <div>
+    <div className='mx-4'>
       {
         listening ?
         <button

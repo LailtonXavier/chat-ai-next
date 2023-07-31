@@ -18,7 +18,7 @@ module.exports = {
     extend: {
       colors: {
         backmain: "#010919",
-        chat: "#1A2130",
+        chat: "#010919",
         chatUserMessage: '#4866A3',
         chatGptMessage: '#2D3442',
         backinput: '#2D3440',

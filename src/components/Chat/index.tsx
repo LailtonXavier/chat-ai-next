@@ -18,13 +18,14 @@ const Chat = () => {
   }) 
   const lastMessage = messages[messages.length - 1];
   const lastMessageContent = lastMessage?.content || `It's empty`;
+  console.log('lastMessageContent', lastMessageContent)
   
   return (
-    <Card className='w-[440px] h-[90%] py-2 m-4 grid grid-rows-[min-content_1fr_min-content] bg-chat border relative'>
+    <Card className='w-[440px] sm:h-[90%] h-screen py-2 m-4 grid grid-rows-[min-content_1fr_min-content] bg-[#040D1F] border-none relative'>
       <CardHeader>
         <CardTitle className='text-center text-cyan-50 text-2xl'>Chat</CardTitle>
           <Input 
-            className='bg-chat border-b-2 border-gray-500 text-cyan-100 text-center'
+            className='bg-[#081021] border-b-2 border-gray-500 text-cyan-100 text-center'
             value={input} 
             onChange={handleInputChange} 
           />
@@ -37,12 +38,14 @@ const Chat = () => {
           </div>
         ))}
       </CardContent>
-      <CardFooter className='flex items-center justify-center space-x-10 mt-5'>
+
+      <CardFooter className='flex items-center justify-center mt-5'>
         <PlayAudio text={lastMessageContent} />
         <Recorder setText={setInput} />
         <BtnSend handleSubmit={handleSubmit} input={input} />
         <button
-          className='absolute bottom-36 right-0 rounded-l-lg w-20 bg-slate-500'
+          className='absolute bottom-36 right-0 rounded-l-lg w-8 hover:w-12
+          ease-in-out delay-75 transition-all bg-[#0C1424]'
           type="button"
           onClick={stop}
           >
