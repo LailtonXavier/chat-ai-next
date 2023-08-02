@@ -4,7 +4,7 @@
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: #6459F6 #6459F6;
+  scrollbar-color: #040D1F #040D1F;
 }
 
 /* Chrome, Edge, and Safari */
@@ -13,20 +13,20 @@
 }
 
 *::-webkit-scrollbar-track {
-  background: #1A2230;
+  background: #040D1F;
   border-ra3ius: 5px;
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: #4F42FD;
+  background-color: #1A2230;
   border-radius: 14px;
   border: 1px solid #1A2230;
   transition: all 1s linear;
 }
 
 *::-webkit-scrollbar-thumb:hover {
-  background-color: #1A2230;
-  border: 1px solid #493CF4;
+  background-color: #030916;
+  border: 1px solid #1A2230;
   cursor: pointer;
 }
 

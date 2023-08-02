@@ -9,6 +9,7 @@ import BtnSend from './BtnSend'
 import UserMessage from './UserMessage'
 import GPTMessage from './GPTMessage'
 import { Pause } from 'lucide-react'
+import { useEffect, useRef } from 'react'
 
 const Chat = () => {
   const { messages, input, handleInputChange, handleSubmit, 
@@ -18,19 +19,31 @@ const Chat = () => {
   }) 
   const lastMessage = messages[messages.length - 1];
   const lastMessageContent = lastMessage?.content || `It's empty`;
-  console.log('lastMessageContent', lastMessageContent)
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [messages])
+
+  const scrollToBottom = () => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  };
   
   return (
     <Card className='w-[440px] sm:h-[90%] h-screen py-2 m-4 grid grid-rows-[min-content_1fr_min-content] bg-[#040D1F] border-none relative'>
       <CardHeader>
         <CardTitle className='text-center text-cyan-50 text-2xl'>Chat</CardTitle>
-          <Input 
-            className='bg-[#081021] border-b-2 border-gray-500 text-cyan-100 text-center'
-            value={input} 
-            onChange={handleInputChange} 
-          />
+          <form onSubmit={handleSubmit}>
+            <Input 
+              className='bg-[#081021] border-b-2 border-gray-500 text-cyan-100 text-center'
+              value={input} 
+              onChange={handleInputChange} 
+              />
+          </form>
       </CardHeader>
-      <CardContent className='space-y-12 overflow-auto scroll-smooth'>
+      <CardContent className='space-y-12 overflow-y-auto scroll-smooth' ref={chatContainerRef}>
         {messages.map(message => (
           <div key={message.id} className='gap-3 text-slate-600 text-sm'>
             <UserMessage content={message.content} role={message.role} />

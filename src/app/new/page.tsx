@@ -32,8 +32,6 @@ const New = () => {
     }
   }, [])
 
-  console.log('supported', supported)
-
   return (
     <div className="app">
       <span>Highligh text and click the speack icon to listen to highlighted text</span>

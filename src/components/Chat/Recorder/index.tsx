@@ -33,8 +33,6 @@ const Recorder = ({setText }:IRecorder) => {
   };
 
   const displayText = (text: string) => {
-
-    console.log(text); 
     setText(text); 
   };
 
