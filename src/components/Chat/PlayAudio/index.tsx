@@ -35,8 +35,6 @@ const PlayAudio = ({ text }:IPlayAudio) => {
       }
     }, [])
   
-    console.log('supported', supported)
-  
     return (
       <>
       <div>

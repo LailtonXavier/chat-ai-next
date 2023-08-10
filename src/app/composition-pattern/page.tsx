@@ -28,12 +28,8 @@ const CompositionPattern = () => {
             <NewModal.CloseTop onClose={closeModal} />
           </NewModal.Header>
           <NewModal.Content content='Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed illo repellat itaque blanditiis error distinctio cum sint molestias deleniti tenetur assumenda nostrum quod veritatis temporibus inventore suscipit, amet esse. Nihil!' />
-          {/* <NewModal.Action onClick={closeModal} name='Ok' /> */}
-          <NewModal.Actions
-            name='Enviar'
-            onSubmit={() => console.log('enviour')} 
-            onClose={closeModal} 
-          />
+          <NewModal.Action onClick={closeModal} name='Ok' />
+         
         </NewModal.Root>
       ) : (
         <Button onClick={() => setOpen(true)}>Abrir modal</Button>
