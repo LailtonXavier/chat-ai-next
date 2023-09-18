@@ -1,132 +1,34 @@
+
 'use client'
+import { useState } from 'react';
 
-import Dialog from '@/components/Dialog';
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
-import { CandyOff, Play, PlayCircle, Shapes } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { useSpeechSynthesis } from "react-speech-kit";
+const New: React.FC = () => {
+  const inputString = "Sure, I can help you practice your English and improve your vocabulary. Let's have a conversation about family and travel. Person 1: Hi, how are you doing today? Person 2: Hi, I'm doing well, thank you. How about you? Person 1: I'm great, thanks. So, have you ever traveled with your family? Person 2: Yes, I have. We love going on family trips. It gives us a chance to spend quality time together. In fact, we recently went on a vacation to Europe. Person 1: That sounds wonderful. Which countries did you visit? Person 2: We visited France, Italy, and Spain. Each country had its own unique charm. We explored the historic streets of Paris, marveled at the beautiful art in Florence, and relaxed on the beaches of Barcelona. Person 1: That sounds like an amazing trip. Did you face any language barriers while traveling? Person 2: We did come across a few language barriers, especially in smaller towns where English was not widely spoken. However, we were able to overcome this by using translation apps and learning some basic phrases in the local language. Person 1: That's smart. How did your family react to experiencing different cultures? Person 2: They loved it! Experiencing different cultures was an eye-opening experience for all of us. It made us appreciate the diversity in the world and helped us understand and respect different traditions and customs. Person 1: That's beautiful. Family trips can be such bonding experiences. Do you have any other travel plans with your family in the near future? Person 2: We are currently planning a trip to South America next summer. We want to explore the ancient ruins of Machu Picchu in Peru and immerse ourselves in the vibrant culture of Brazil. Person 1: Wow, South America sounds incredible. I hope you have an unforgettable time on your upcoming trip! Person 2: Thank you! We're really looking forward to it. It was great talking to you about family and travel. Person 1: Likewise! I enjoyed our conversation and wish you all the best for your future adventures. Take care! Person 2: Thank you. You take care too. Goodbye!";
 
-const New = () => {
-  const [showSpeechSettings, setShowSpeechSettings] = useState(false)
-  const [highlightedText, setHighlightedText] = useState<string | undefined>('')
-  const [voiceIndex, setVoiceIndex] = useState('');
-  const [pitch, setPitch] = useState(1);
-  const [rate, setRate] = useState(1);
+  const [extractedText, setExtractedText] = useState<string | null>(null);
 
-  const onEnd = () => {
-    setHighlightedText('')
-  }
-  const { speak, cancel, speaking, supported, voices } = useSpeechSynthesis({onEnd})
+  const handleTextClick = (clickedText: string) => {
+    setExtractedText(clickedText);
+  };
 
-  const voice = voices[voiceIndex] || null
-
-  const handleTextSet = () => {
-    const text = window.getSelection()?.toString()
-    if(text !== '') setHighlightedText(text)
-  }
-
-  useEffect(() => {
-    document.addEventListener('mouseup', handleTextSet)
-    return () => {
-      document.removeEventListener('mouseup', handleTextSet)
-    }
-  }, [])
+  const splitText = inputString.split(/([,.?:])/);
 
   return (
-    <div className="app">
-      <span>Highligh text and click the speack icon to listen to highlighted text</span>
-      {supported && 
-        <div className="speechMenu">
-          
-          <Shapes color='#fff' className='bg-yellow-300' onClick={() => setShowSpeechSettings(true)}/>
-        </div>
-      }
-
-      {supported && !speaking ? 
-        <button
-          className='flex items-center justify-center bg-audioOff h-24 pl-2 w-24 
-          rounded-full '
-          type='button'
-          onClick={() => speak({ text: highlightedText, voice, rate, pitch})}
+    <div>
+      <p>Original String:</p>
+      <p>
+        {splitText.map((segment, index) => (
+          <span
+            key={index}
+            onClick={() => handleTextClick(segment)}
+            style={{ cursor: 'pointer', backgroundColor: extractedText === segment ? 'yellow' : 'transparent' }}
           >
-            <Play color='#089505' size={60} />
-        </button> 
-       : 
-        <button
-          className='flex items-center justify-center bg-audioActived h-24 pl-2 w-24 
-          rounded-full shadow-2xl shadow-[1px 5px 38px] shadow-[#089505]/50'
-          type='button'
-          onClick={cancel}
-        >
-          <Play color='#93E99C' size={60} />
-        </button>           
-      }
-
-      <Dialog open={showSpeechSettings} onClose={() => setShowSpeechSettings(false)}>
-        <div className='speechSettings'>
-          {/* VOices -- browser dependent */}
-          <select
-            name="voice"
-            value={voiceIndex || ''}
-            onChange={(e: any) => {
-              setVoiceIndex(e.target.value)
-            }}
-          >
-            {voices.map((option: any, index: any) => (
-              <option key={option.voiceURI} value={index}>
-                {`${option.lang} - ${option.name} ${ option.default ? '- Default' : ''}`}
-              </option>
-            ))}
-          </select>
-          <div className='rangeContainer'>
-            <div>
-              <label htmlFor="rate">Rate: </label>
-              <span>{rate}</span>
-            </div>
-            <input
-              type="range"
-              min="0.5"
-              max="2"
-              step="0.1"
-              value={rate}
-              onChange={(e:any) => {
-                setRate(e.target.value);
-              }}
-            />
-          </div>
-          <div className='rangeContainer'>
-            <div>
-              <label htmlFor="pitch">Pitch: </label>
-              <span>{pitch}</span>
-            </div>
-            <input
-              type="range"
-              min="0"
-              max="2"
-              step="0.1"
-              value={pitch}
-              id="pitch"
-              onChange={(event: any) => {
-                setPitch(event.target.value);
-              }}
-            />
-          </div>
-        </div>
-      </Dialog>
-      <Sheet>
-        <SheetTrigger>Open</SheetTrigger>
-        <SheetContent className="w-[400px] sm:w-[540px]">
-          <SheetHeader>
-            <SheetTitle>Are you sure absolutely sure?</SheetTitle>
-            <SheetDescription>
-              This action cannot be undone. This will permanently delete your account
-              and remove your data from our servers.
-            </SheetDescription>
-          </SheetHeader>
-        </SheetContent>
-      </Sheet>
-    </div>    
-  )
-}
-
-export default New
+            {segment}
+          </span>
+        ))}
+      </p>
+      <p>Extracted Text: {extractedText}</p>
+    </div>
+  );
+};
+export default New;
